@@ -1,8 +1,17 @@
-import React from 'react'
+import { BrowserRouter } from "react-router"
+import Navbar from "./components/Navbar"
+import AppRoute from "./routes/AppRoute"
+
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+      <BrowserRouter>
+        <Navbar />
+        <AppRoute />
+      </BrowserRouter>
+    </div>
+
   )
 }
 
