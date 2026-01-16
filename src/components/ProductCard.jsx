@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 const ProductCard = ({product}) => {
-  return <Link to=''>
+  return <Link to={`/product/${product.id}`}>
     <div className='shadow-lg rounded-md cursor-pointer'>
         <img src={product.image}></img>
         <div className='bg-gray-50 p-4'>

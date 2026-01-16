@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import { Link } from 'react-router'
 import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchItems } from '../redux/features/ProductSlice';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
+    const searchTerm = useSelector((state) => state.product.searchItem);
 
     // user toggle
     const handleUser = () => {
@@ -52,6 +56,8 @@ const Navbar = () => {
                         <input type='text' 
                         className='bg-zinc-100 rounded-md border border-zinc-200 focus:outline py-3 px-3 w-full'
                         placeholder='Search product'
+                        value={searchTerm}
+                        onChange={(e)=> dispatch(setSearchItems(e.target.value))}
                         />
                     </form>
                     <Link>

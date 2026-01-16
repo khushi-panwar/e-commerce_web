@@ -1,13 +1,14 @@
 import axios from "axios";
-import { axioInstance } from "../config/axiosInstance";
+import { axiosInstance } from "../config/axiosInstance";
 
-const fetchData = async () => {
+const getProducts = async () => {
     try {
-        const res = await axioInstance.get('/products');
+        const res = await axiosInstance.get('/products');
         // console.log(res.data.products);
         
-        if(res){
-            return res.data.products
+        if (res) {
+            const data = await res.data.products;
+            return data;
         }
 
     } catch (error) {
@@ -16,4 +17,8 @@ const fetchData = async () => {
     }
 }
 
-export default fetchData;
+
+// export const getProductById = (id) => axiosInstance.get(`/products/${id}`);
+// export const getCategories = () => axiosInstance.get("/products/categories");
+// export const getByCategory = (cat) => axiosInstance.get(`/products/category/${cat}`);
+export default getProducts;
