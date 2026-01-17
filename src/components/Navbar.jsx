@@ -4,11 +4,19 @@ import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchItems } from '../redux/features/ProductSlice';
+import { addToCart } from '../redux/features/CartSlice';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
+
+    //  searched Item
     const searchTerm = useSelector((state) => state.product.searchItem);
+    // Get cart items array from Redux store
+    const cartItems = useSelector((state) => state.cart.items);
+    // Calculate total number of items in cart
+    const itemCount = cartItems.reduce(
+        (total , item) => total + item.quantity , 0)
 
     // user toggle
     const handleUser = () => {
@@ -44,7 +52,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <nav className='flex justify-between items-center container mx-auto md:py-6 py-8 px-2'>
+                <nav className=' flex justify-between items-center container mx-auto md:py-6 py-8 px-2'>
                 {/* logo */}
                     <div className='flex items-center'>
                         <Link to="/" className='bg-gray-700 py-2 px-4 rounded'>
@@ -60,9 +68,16 @@ const Navbar = () => {
                         onChange={(e)=> dispatch(setSearchItems(e.target.value))}
                         />
                     </form>
-                    <Link>
+                    <div className='relative'>
+                        <Link to={"/cart"}>
+                    {/* Cart icon that navigates to cart page */}
                         <MdOutlineShoppingCart size={50} className='cursor-pointer bg-gray-100 px-3 py-2 rounded-full' />
+                        {/* Show item count badge only if items exist */}
+                        {
+                            itemCount > 0 && <span className='absolute flex -top-2 -right-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 items-center justify-center  '>{itemCount}</span>
+                        }
                     </Link>
+                    </div>
                 </nav>
             </>
         </header>
