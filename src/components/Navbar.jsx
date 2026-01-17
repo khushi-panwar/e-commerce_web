@@ -46,7 +46,7 @@ const Navbar = () => {
                             <li><Link to='/'>Sign</Link></li>
                             <li><Link to='/'>My Account</Link></li>
                         </div>
-                        <FaRegUser className='bg-gray-200 text-black rounded cursor-pointer' size={30}
+                        <FaRegUser className='bg-gray-200 p-1 text-black rounded cursor-pointer' size={30}
                             onClick={handleUser}
                         />
                     </ul>
@@ -55,8 +55,9 @@ const Navbar = () => {
                 <nav className=' flex justify-between items-center container mx-auto md:py-6 py-8 px-2'>
                 {/* logo */}
                     <div className='flex items-center'>
-                        <Link to="/" className='bg-gray-700 py-2 px-4 rounded'>
+                        <Link to="/" className='bg-gray-700 py-2 px-4 rounded text-white'>
                             {/* <img src='' alt='Logo' /> */}
+                            E-commerce
                         </Link>
                     </div>
                 {/* search bar  */}

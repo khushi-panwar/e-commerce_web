@@ -14,9 +14,9 @@ const Footer = () => {
                     <input 
                         type='text'
                         placeholder='Enter Your Email'
-                        className='py-4 px-4 rounded shadow-md w-full'
+                        className='py-4 px-4 rounded text-white shadow-md w-full'
                     />
-                    <button className='bg-gray-200 py-3 px-4 rounded-full absolute right-3 top-1'></button>
+                    <button className='bg-gray-200 py-3 px-4 rounded-full absolute right-3 top-1'>Submit</button>
                 </form>
             </div>
         </div>
