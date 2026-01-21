@@ -1,88 +1,103 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router'
-import { FaRegUser } from "react-icons/fa6";
-import { MdOutlineShoppingCart } from "react-icons/md";
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchItems } from '../redux/features/ProductSlice';
-import { addToCart } from '../redux/features/CartSlice';
+import { FaRegUser, FaBars, FaTimes } from "react-icons/fa"
+import { MdOutlineShoppingCart } from "react-icons/md"
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearchItems } from '../redux/features/ProductSlice'
+import  logo from '../assets/e-com-logo.png'
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const dispatch = useDispatch();
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [userOpen, setUserOpen] = useState(false)
 
-    //  searched Item
-    const searchTerm = useSelector((state) => state.product.searchItem);
-    // Get cart items array from Redux store
-    const cartItems = useSelector((state) => state.cart.items);
-    // Calculate total number of items in cart
-    const itemCount = cartItems.reduce(
-        (total , item) => total + item.quantity , 0)
+  const dispatch = useDispatch()
+  const searchTerm = useSelector((state) => state.product.searchItem)
+  const cartItems = useSelector((state) => state.cart.items)
 
-    // user toggle
-    const handleUser = () => {
-        setIsOpen(!isOpen);
-    }
+  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0)
 
-    return (
-        <header className='bg-white shadow-md'>
-            <>
-                <div className='py-4  shadow-md'>
-                    <ul className='container mx-auto flex flex-wrap justify-between md:flex-row px-4 md:px-2 items-center'>
-                        <div className='flex gap-4'>
-                            <li>
-                                <Link to='/' >Home</Link>
-                            </li>
-                            <li>
-                                <Link to='/' >about</Link>
-                            </li>
-                            <li>
-                                <Link to='/' >FAQ</Link>
-                            </li>
-                            <li>
-                                <Link to='/' >Contact</Link>
-                            </li>
-                        </div>
-                        <div className={`${isOpen ? "flex flex-col absolute right-0 md:right-0 top-12 z-10 bg-zinc-50 p-4 gap-4 " : "hidden"}`}>
-                            <li><Link to='/'>Sign</Link></li>
-                            <li><Link to='/'>My Account</Link></li>
-                        </div>
-                        <FaRegUser className='bg-gray-200 p-1 text-black rounded cursor-pointer' size={30}
-                            onClick={handleUser}
-                        />
-                    </ul>
-                </div>
+  return (
+    <header className="bg-white shadow-md">
+      <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
 
-                <nav className=' flex justify-between items-center container mx-auto md:py-6 py-8 px-2'>
-                {/* logo */}
-                    <div className='flex items-center'>
-                        <Link to="/" className='bg-gray-700 py-2 px-4 rounded text-white'>
-                            {/* <img src='' alt='Logo' /> */}
-                            E-commerce
-                        </Link>
-                    </div>
-                {/* search bar  */}
-                    <form className='w-1/2 sm:block hidden'>
-                        <input type='text' 
-                        className='bg-zinc-100 rounded-md border border-zinc-200 focus:outline py-3 px-3 w-full'
-                        placeholder='Search product'
-                        value={searchTerm}
-                        onChange={(e)=> dispatch(setSearchItems(e.target.value))}
-                        />
-                    </form>
-                    <div className='relative'>
-                        <Link to={"/cart"}>
-                    {/* Cart icon that navigates to cart page */}
-                        <MdOutlineShoppingCart size={50} className='cursor-pointer bg-gray-100 px-3 py-2 rounded-full' />
-                        {/* Show item count badge only if items exist */}
-                        {
-                            itemCount > 0 && <span className='absolute flex -top-2 -right-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 items-center justify-center  '>{itemCount}</span>
-                        }
-                    </Link>
-                    </div>
-                </nav>
-            </>
-        </header>
-    )
+        {/* Logo */}
+        <Link to="/" >
+          <img src={logo} alt='logo' className='h-10 object-contain'></img>
+        </Link>
+
+        {/* Desktop Links */}
+        <ul className="hidden md:flex gap-6">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/">About</Link></li>
+          <li><Link to="/">FAQ</Link></li>
+          <li><Link to="/">Contact</Link></li>
+        </ul>
+
+        {/* Search (Desktop) */}
+        <input
+          type="text"
+          className="hidden md:block bg-zinc-100 border rounded px-3 py-2 w-72"
+          placeholder="Search product"
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchItems(e.target.value))}
+        />
+
+        {/* Icons */}
+        <div className="flex items-center gap-6 relative">
+          <Link to="/cart" className="relative">
+            <MdOutlineShoppingCart size={28} />
+            {itemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+
+          <FaRegUser
+            size={26}
+            className="cursor-pointer"
+            onClick={() => setUserOpen(!userOpen)}
+          />
+
+          {/* User Dropdown */}
+          {userOpen && (
+            <div className="absolute top-10 right-0 bg-white shadow-md p-3 rounded w-32">
+              <Link to="/signin" className="block mb-2">Sign In</Link>
+              <Link to="/" className="block">My Account</Link>
+            </div>
+          )}
+
+          {/* Hamburger */}
+          <button
+            className="md:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-zinc-50 px-4 pb-4">
+          <input
+            type="text"
+            className="bg-zinc-100 border rounded px-3 py-2 w-full mb-4"
+            placeholder="Search product"
+            value={searchTerm}
+            onChange={(e) => dispatch(setSearchItems(e.target.value))}
+          />
+
+          <ul className="flex flex-col gap-3">
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/">About</Link></li>
+            <li><Link to="/">FAQ</Link></li>
+            <li><Link to="/">Contact</Link></li>
+          </ul>
+        </div>
+      )}
+    </header>
+  )
 }
 
 export default Navbar
