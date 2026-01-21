@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router';
 import { FiMinus, FiPlus, FiTrash2 } from "react-icons/fi";
-import { updateQuantity } from '../redux/features/CartSlice';
+import { updateQuantity, removeFromCart } from '../redux/features/CartSlice';
 
 const CartPage = () => {
   const dispatch = useDispatch();
